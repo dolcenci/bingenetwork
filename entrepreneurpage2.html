@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binge Tech Growing Entrepreneurs Programme</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            padding: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .event {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>BINGE NETWORK</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="event">
+            <h2>Event Title: How to Excel in Tech Entrepreneurship</h2>
+            <p>Date: June 15, 2024</p>
+            <p>Time: 10:00 AM - 5:00 PM</p>
+            <p>Location: Silicon Valley Conference Center</p>
+            <p>Host: Binge Tech Growing Entrepreneurs Programme</p>
+            <p>Description: Join us for a day of insightful discussions, workshops, and networking opportunities aimed at helping tech entrepreneurs thrive in today's competitive landscape. Learn from industry experts, connect with like-minded individuals, and take your entrepreneurial journey to new heights.</p>
+            <button class="exploreBtn">Sign Up for event</button>
+        </section>
+
+        <!-- Additional events -->
+        <section class="event">
+            <h2>Event Title: Mastering Product Development with Binge Tech</h2>
+            <p>Date: July 20, 2024</p>
+            <p>Time: 11:00 AM - 4:00 PM</p>
+            <p>Location: Binge Tech Headquarters, San Francisco</p>
+            <p>Host: Binge Tech Growing Entrepreneurs Programme</p>
+            <p>Description: Dive deep into the strategies and methodologies for successful product development with Binge Tech experts. Learn how to leverage the resources provided by the Binge Tech Growing Entrepreneurs Programme to streamline your product development process and bring innovative solutions to market. This event includes hands-on exercises and case studies.</p>
+            <button class="exploreBtn">Sign Up for event</button>
+        </section>
+
+        <section class="event">
+            <h2>Event Title: Scaling Your Startup with Binge Tech</h2>
+            <p>Date: August 15, 2024</p>
+            <p>Time: 9:00 AM - 3:00 PM</p>
+            <p>Location: Binge Tech Accelerator, New York</p>
+            <p>Host: Binge Tech Growing Entrepreneurs Programme</p>
+            <p>Description: Join us for a comprehensive workshop on scaling your startup effectively with the support of Binge Tech resources. Discover the tools, mentorship opportunities, and funding options available through the Binge Tech Growing Entrepreneurs Programme to fuel the growth of your venture. This event will feature success stories from Binge Tech alumni.</p>
+            <button class="exploreBtn">Sign Up for event</button>
+        </section>
+
+        <section class="event">
+            <h2>Event Title: Navigating Funding Opportunities with Binge Tech</h2>
+            <p>Date: September 10, 2024</p>
+            <p>Time: 2:00 PM - 7:00 PM</p>
+            <p>Location: Binge Tech Hub, London</p>
+            <p>Host: Binge Tech Growing Entrepreneurs Programme</p>
+            <p>Description: Learn how to navigate the diverse landscape of funding opportunities available to entrepreneurs with the guidance of Binge Tech experts. Explore the various funding options, including grants, venture capital, and angel investments, and learn how to access them through the Binge Tech Growing Entrepreneurs Programme. This event will also feature a panel discussion with successful founders and investors.</p>
+            <button class="exploreBtn">Sign up for event</button>
+        </section>
+        
+        <section class="event">
+            <h2>display other users</h2>
+            <p>Date: September 10, 2024</p>
+            <p>Time: 2:00 PM - 7:00 PM</p>
+            
+            <p>want to view who has entered this event click the button below</p>
+            <button class="networkBtn">View who will be at event</button>
+        </section>
+        
+    </main>
+    <footer>
+        <p>&copy; 2024 Binge Tech Growing Entrepreneurs Programme. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript for button click event
+        document.querySelectorAll(".exploreBtn").forEach(btn => {
+            btn.addEventListener("click", function() {
+                window.location.href = "https://bingenetwork.000webhostapp.com/eventsignup.html";
+               
+                const eventSection = this.parentElement;
+                if (eventSection.style.backgroundColor === "rgb(255, 255, 255)") {
+                    eventSection.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                } else {
+                    eventSection.style.backgroundColor = "rgb(255, 255, 255)";
+                }
+            });
+        });
+        
+        document.querySelectorAll(".networkBtn").forEach(btn => {
+            btn.addEventListener("click", function() {
+                window.location.href = "https://bingenetwork.000webhostapp.com/display.html";
+               
+                const eventSection = this.parentElement;
+                if (eventSection.style.backgroundColor === "rgb(255, 255, 255)") {
+                    eventSection.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                } else {
+                    eventSection.style.backgroundColor = "rgb(255, 255, 255)";
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>
