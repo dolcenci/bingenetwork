@@ -1,0 +1,229 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Education - Comments</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f3f7f9;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .form-button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .form-button:hover {
+            background-color: #0056b3;
+        }
+        .comment {
+            border-bottom: 1px solid #eaeaea;
+            padding: 15px 0;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .comment:last-child {
+            border-bottom: none;
+        }
+        .comment-author {
+            font-weight: bold;
+            color: #007bff;
+            margin-right: 10px;
+        }
+        .comment-text {
+            margin-top: 5px;
+            font-size: 15px;
+            color: #444;
+        }
+        .comment-timestamp {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        .profile-pic {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border: 2px solid #007bff;
+        }
+        .comments-title {
+            margin: 20px 0;
+            color: #555;
+            font-size: 18px;
+            text-align: center;
+        }
+        .comment-container {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .comment-image {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .image-input {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Comments</h1>
+        <div class="form-group">
+            <label for="commentText">Leave a comment:</label>
+            <textarea id="commentText" placeholder="Write your comment here..." required></textarea>
+            <input type="file" id="commentImage" accept="image/*" class="image-input">
+        </div>
+        <button class="form-button" id="submitComment">Post Comment</button>
+
+        <div class="comments-title">Previous Comments</div>
+        <div id="commentsList"></div>
+    </div>
+
+    <!-- Import Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD0wmHrQTzKg_esDVVVFRCK_V9U6UfSzg4",
+  authDomain: "bingenetwork-4182b.firebaseapp.com",
+  databaseURL: "https://bingenetwork-4182b-default-rtdb.firebaseio.com",
+  projectId: "bingenetwork-4182b",
+  storageBucket: "bingenetwork-4182b.appspot.com",
+  messagingSenderId: "942410388398",
+  appId: "1:942410388398:web:ec3c9d69c151519cbdae3f"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const firestore = getFirestore(app);
+        const storage = getStorage(app);
+
+        const commentsList = document.getElementById('commentsList');
+
+        // Function to format timestamp
+        function formatDate(timestamp) {
+            return timestamp.toLocaleString(); // Format date as needed
+        }
+
+        // Function to display comments
+        function displayComments() {
+            const commentsRef = collection(firestore, 'comments');
+            onSnapshot(commentsRef, (snapshot) => {
+                commentsList.innerHTML = '';
+                snapshot.forEach(async (doc) => {
+                    const commentData = doc.data();
+                    const commentDiv = document.createElement('div');
+                    commentDiv.className = 'comment-container';
+
+                    const profilePicUrl = await getDownloadURL(ref(storage, 'user_photos/' + commentData.uid));
+                    const timestamp = commentData.timestamp ? commentData.timestamp.toDate() : new Date(); // Convert Firestore timestamp to JS Date
+
+                    commentDiv.innerHTML = `
+                        <div class="comment">
+                            <img src="${profilePicUrl}" class="profile-pic" alt="${commentData.name}">
+                            <div>
+                                <div class="comment-author">${commentData.name} ${commentData.surname}</div>
+                                <div class="comment-text">${commentData.text}</div>
+                                ${commentData.image ? `<img src="${commentData.image}" class="comment-image" alt="Comment Image">` : ''}
+                                <div class="comment-timestamp">${formatDate(timestamp)}</div>
+                            </div>
+                        </div>
+                    `;
+                    commentsList.appendChild(commentDiv);
+                });
+            });
+        }
+
+        // Posting a comment
+        document.getElementById('submitComment').addEventListener('click', async () => {
+            const user = auth.currentUser;
+            const commentText = document.getElementById('commentText').value;
+            const commentImage = document.getElementById('commentImage').files[0];
+
+            if (user && commentText) {
+                try {
+                    const displayName = user.displayName ? user.displayName.split(" ") : [user.email.split("@")[0], ""];
+                    const name = displayName[0];
+                    const surname = displayName[1] || "";
+
+                    let imageUrl = '';
+                    if (commentImage) {
+                        const imageRef = ref(storage, 'comment_images/' + commentImage.name);
+                        await uploadBytes(imageRef, commentImage);
+                        imageUrl = await getDownloadURL(imageRef);
+                    }
+
+                    await addDoc(collection(firestore, 'comments'), {
+                        uid: user.uid,
+                        name: name,
+                        surname: surname,
+                        text: commentText,
+                        image: imageUrl,
+                        timestamp: serverTimestamp()  // Use serverTimestamp() here
+                    });
+                    document.getElementById('commentText').value = '';
+                    document.getElementById('commentImage').value = ''; // Clear file input
+                } catch (error) {
+                    alert(error.message);
+                }
+            } else {
+                alert("You must be logged in to post a comment.");
+            }
+        });
+
+        // Load comments on page load
+        displayComments();
+    </script>
+</body>
+</html>
