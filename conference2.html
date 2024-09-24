@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Conference - Binge Network</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        #video-container {
+            height: 80vh;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="#">BINGE NETWORK</a>
+    </nav>
+
+    <div class="container mt-5 text-center">
+        <h2>Join a Video Conference</h2>
+        <input id="roomInput" type="text" placeholder="Enter Room Name" class="form-control mb-3" style="width: 300px; margin: auto;">
+        <button id="joinBtn" class="btn btn-primary">Join Conference</button>
+        
+        <div id="video-container" style="display: none;">
+            <h4>Video Conference Room</h4>
+            <iframe id="whereby-iframe" src="" width="100%" height="500px" style="border: 0;"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const joinBtn = document.getElementById('joinBtn');
+        const roomInput = document.getElementById('roomInput');
+        const videoContainer = document.getElementById('video-container');
+        const wherebyIframe = document.getElementById('whereby-iframe');
+
+        joinBtn.addEventListener('click', () => {
+            const roomName = roomInput.value;
+            if (roomName) {
+                videoContainer.style.display = 'block';
+                wherebyIframe.src = `https://whereby.com/${roomName}`;
+            } else {
+                alert("Please enter a room name.");
+            }
+        });
+    </script>
+
+    <footer class="text-center mt-4">
+        <p>&copy; 2023 Binge Network. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>
